@@ -14,14 +14,37 @@ export const getSuperheroById = async (id: string) => {
   return res.json();
 };
 
-export const createSuperhero = async (data: any) => {
+export const createSuperhero = async (data: FormData) => {
   const res = await fetch( API_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: data
   });
 
   if (!res.ok) throw new Error('Failed to create superhero');
+  return res.json();
+};
+
+export const updateSuperhero = async (id: string, data: any) => {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: 'PATCH', 
+    body: data
+  });
+
+  if (!res.ok) throw new Error('Failed to update superhero');
+  return res.json();
+};
+
+
+export const updateSuperheroImages = async (id: string, images: string[]) => {
+  const res = await fetch(`${API_URL}/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ images }),
+  });
+
+  if (!res.ok) throw new Error('Failed to update images');
   return res.json();
 };
 

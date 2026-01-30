@@ -4,7 +4,7 @@ import { type ISuperhero, type IUpdateSuperhero } from "../types/superhero.type.
 
 export class SuperheroService {
 
-    createSuperhero(data: any) {
+    createSuperhero(data: ISuperhero) {
         return prisma.superhero.create({data : {
             nickname: data.nickname,
             real_name: data.real_name,
@@ -49,10 +49,10 @@ export class SuperheroService {
             where: {id}, 
             data: {
                 ...(data.nickname !== undefined && { nickname: data.nickname }),
-                ...(data.realName !== undefined && { real_name: data.realName }),
-                ...(data.originDescription !== undefined && {origin_description: data.originDescription}),
+                ...(data.real_name !== undefined && { real_name: data.real_name }),
+                ...(data.origin_description !== undefined && {origin_description: data.origin_description}),
                 ...(data.superpowers !== undefined && { superpowers: data.superpowers }),
-                ...(data.catchPhrase !== undefined && { catch_phrase: data.catchPhrase }),
+                ...(data.catch_phrase !== undefined && { catch_phrase: data.catch_phrase }),
                 ...(data.images !== undefined && { images: data.images })
             }
         })

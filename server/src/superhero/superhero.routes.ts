@@ -10,7 +10,7 @@ superheroRouter.get('/', superheroController.getAll);
 
 superheroRouter.get('/:id', superheroController.getById);
 
-superheroRouter.patch('/:id', superheroController.update);
+superheroRouter.patch('/:id', upload.single("image"), superheroController.update);
 
 superheroRouter.delete('/:id', superheroController.delete);
 

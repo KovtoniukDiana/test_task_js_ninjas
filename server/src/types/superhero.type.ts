@@ -2,20 +2,19 @@
 
 export interface ISuperhero {
   nickname: string;
-  realName: string;
-  originDescription: string;
+  real_name: string;
+  origin_description: string;
   superpowers: string;
-  catchPhrase:string;
+  catch_phrase:string;
   images?: string[];
 }
 
 
-
 export interface IUpdateSuperhero {
   nickname?: string;
-  realName?: string;
-  originDescription?: string;
+  real_name?: string;
+  origin_description?: string;
   superpowers: string;
-  catchPhrase:string;
+  catch_phrase:string;
   images?: string[];
 }

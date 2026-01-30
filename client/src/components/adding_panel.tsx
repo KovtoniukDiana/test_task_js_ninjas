@@ -7,15 +7,15 @@ export default function AddingPanel() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className='w-[85%] flex justify-around bg-pink-200 items-center rounded-md p-4'>
-      <p className='text-lg'>Для створення ногово супергероя натискайте сюди:</p>
+    <div className='w-[85%] mt-6 flex justify-between items-center bg-gradient-to-r from-pink-100 to-purple-100 border border-gray-100 rounded-2xl p-6 shadow-sm'>
+      <p className='text-lg'>СТВОРЮЙТЕ НОВИХ ПЕРСОНАЖІВ <br/> ТА КЕРУЙТЕ БАЗОЮ</p>
       
       <Button as={Link} href='#' variant='flat' color='secondary'
        onPress={() => setIsModalOpen(true)}>
         Створити
       </Button>
 
-      <AddingModal isOpen={isModalOpen} onClose={() => {setIsModalOpen(false)}} />
+      <AddingModal title='Створити нового супергероя' isOpen={isModalOpen} onClose={() => {setIsModalOpen(false)}} />
     </div>
   )
 }

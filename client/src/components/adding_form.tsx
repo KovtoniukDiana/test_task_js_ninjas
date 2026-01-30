@@ -34,14 +34,11 @@ export default function AddingForm({ onClose } : IProps) {
 
     try {
     
-        const response = await fetch('http://localhost:5000/api/superheroes', {
-        method: 'POST',
-        body: data,
-        });
+        await createSuperhero(data);
 
-        if (response.ok) {
         onClose();
-        }
+        window.location.reload();
+
     } catch (error) {
         console.error(error);
     }
@@ -162,7 +159,7 @@ export default function AddingForm({ onClose } : IProps) {
         </Button>
 
         <Button type="submit" color="primary">
-            Додати супергоя
+            Додати супергероя
         </Button>
       </div>
     </Form>

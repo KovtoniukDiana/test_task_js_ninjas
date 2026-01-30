@@ -33,10 +33,10 @@ class SuperheroController {
 
             const hero = await superheroService.createSuperhero({
                 nickname: request.body.nickname,
-                real_name: request.body.realName || request.body.real_name,
-                origin_description: request.body.originDescription || request.body.origin_description,
+                real_name: request.body.real_name,
+                origin_description: request.body.origin_description,
                 superpowers: request.body.superpowers,
-                catch_phrase: request.body.catchPhrase || request.body.catch_phrase,
+                catch_phrase: request.body.catch_phrase,
                 images: [imageUrl],
             });
 
@@ -69,10 +69,59 @@ class SuperheroController {
     }
 
 
-    async update( request: Request, response: Response ) {
-        const hero = await superheroService.updateSuperhero(request.params.id as string, request.body);
+    async update(request: Request, response: Response) {
+        try {
+            const { id } = request.params;
+            const file = request.file;
 
-        response.json(hero);
+            if (typeof id !== 'string') {
+                return response.status(400).json({ message: "Invalid ID format" });
+            }
+
+            let updatedData = { ...request.body };
+            let imagesToUpdate = request.body.images;
+
+            if (file) {
+                const fileName = `superheroes/${uuid()}-${file.originalname}`;
+                const { error: uploadError } = await supabase.storage
+                    .from("superhero-images")
+                    .upload(fileName, file.buffer, {
+                        contentType: file.mimetype,
+                    });
+
+                if (uploadError) throw uploadError;
+
+                const { data } = supabase.storage
+                    .from("superhero-images")
+                    .getPublicUrl(fileName);
+
+                const newImageUrl = data.publicUrl;
+
+                const currentHero = await superheroService.getSuperheroById(id);
+                const currentImages = currentHero?.images || [];
+
+                updatedData.images = [...currentImages, newImageUrl];
+            } else if(typeof imagesToUpdate === 'string') {
+
+                imagesToUpdate = JSON.parse(imagesToUpdate);
+            }
+
+            const hero = await superheroService.updateSuperhero(id, 
+                {
+                    nickname: updatedData.nickname,
+                    real_name: updatedData.real_name,
+                    origin_description: updatedData.origin_description,
+                    superpowers: updatedData.superpowers,
+                    catch_phrase: updatedData.catch_phrase,
+                    images: updatedData.images,
+                }
+            );
+
+            response.json(hero);
+        } catch (error) {
+            console.error("Update error:", error);
+            response.status(500).json({ message: "Failed to update" });
+        }
     }
 
 

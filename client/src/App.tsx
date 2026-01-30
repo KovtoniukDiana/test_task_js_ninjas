@@ -1,19 +1,23 @@
+import { Routes, Route } from "react-router-dom";
 import React from "react";
 import AddingPanel from "./components/adding_panel";
-import PaginationHeroui from "./components/pagination";
+import SuperheroesList from "./pages/SuperheroesList";
+import SuperheroDetails from "./pages/SuperheroDetails";
 
 function App() {
   return (
-    <div className="w-full h-screen flex flex-col justify-between items-center full">
+    <div className="w-full h-screen flex flex-col items-center full">
 
-      <AddingPanel />
+      <Routes>
+        <Route path="/" element={
+          <>
+            <AddingPanel />
+            <SuperheroesList />
+          </>
+        } />
 
-    
-      
-
-      <footer className="sticky bottom-0 pb-10 pt-4">
-        <PaginationHeroui />
-      </footer>
+        <Route path="/:id" element={<SuperheroDetails />} />
+      </Routes>
     </div>
   );
 }
