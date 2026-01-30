@@ -18,6 +18,8 @@ model Superhero {
   nickname           String   @unique
   real_name          String
   origin_description String   @db.Text
+  superpowers        String   @db.Text
+  catch_phrase       String   @db.Text
   images             String[]
 
   createdAt          DateTime @default(now())
